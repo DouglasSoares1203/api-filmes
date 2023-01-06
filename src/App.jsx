@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
-import movies from "./movies";
+import movies from "./filmes/movies";
 // import SortIcon from "@material-ui/icons/ArrowDownward";
 import "react-data-table-component-extensions/dist/index.css";
-import { columns, data } from "./data";
+import { columns, data } from "./dados/data";
 import "./styles.css";
 
 
@@ -67,8 +67,9 @@ function App() {
           Title
           <input
             type="text"
+            placeholder="Title"
             value={title}
-            onChange={(e) => onChange}
+            onChange={(e) => onChange(e)}
             style={{ width: "80%" }}
           />
         </div>
@@ -81,9 +82,9 @@ function App() {
         <div>
           Genero
           <input
-            type="select"
+            type="text"
             value={genre}
-            onChange2={(e) => onChange2}
+            onChange2={(e) => onChange2(e)}
             style={{ width: "80%" }}
           />
         </div>
