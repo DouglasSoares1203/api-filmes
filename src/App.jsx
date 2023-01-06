@@ -1,25 +1,21 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import movies from "./movies";
-import SortIcon from "@material-ui/icons/ArrowDownward";
-import { Select } from "@material-ui/core";
-// eslint-disable-next-line no-unused-vars
-import DataTableExtensions from "react-data-table-component-extensions";
-import "react-data-table-component-extensions/App.css";
-// eslint-disable-next-line no-unused-vars
+// import SortIcon from "@material-ui/icons/ArrowDownward";
+import "react-data-table-component-extensions/dist/index.css";
 import { columns, data } from "./data";
-import "../src/App.css";
+import "./styles.css";
 
 
 function App() {
   const [tableRowsData, setTableRowsData] = useState(movies);
   const [title, setTitle] = useState("");
-  const [genre, setGenre] = useState([]);
+  const [genre, setGenre] = useState("");
 
   const onChange = async (e) => {
     setTitle(e.target.value);
     console.log(e);
-    // eslint-disable-next-line array-callback-return
+
     var searchData = movies.filter((item) => {
       if (
         item.title
@@ -36,14 +32,33 @@ function App() {
   };
 
   const onChange2 = async (e) => {
-    if (genre.length === 0) return;
-    const value = setGenre(e.target.value);
-    const searchData = [...Select].filter(
-      (gen) =>
-        gen.genre.toLowerCase().includes(value.toLowerCase())
-    );
+    setGenre(e.target.value);
+    console.log(e);
+
+    var searchData = movies.filter((item) => {
+      if (
+        item.genre
+          .toString()
+          .toLowerCase()
+          .includes(e.target.value.toLowerCase())
+      ) {
+        return item
+      }
+
+    });
+
     setTableRowsData(searchData);
   };
+
+  // const onChange2 = async (e) => {
+  //   if (genre.length === 0) return;
+  //   const value = setGenre(e.target.value);
+  //   const searchData = [...Select].filter(
+  //     (gen) =>
+  //       gen.genre.toLowerCase().includes(value.toLowerCase())
+  //   );
+  //   setTableRowsData(searchData);
+  // };
 
   const headerResponsive = [
     {
@@ -58,6 +73,8 @@ function App() {
           />
         </div>
       ),
+      selector: "title",
+      sortable: false
     },
     {
       name: (
@@ -70,7 +87,10 @@ function App() {
             style={{ width: "80%" }}
           />
         </div>
-      )
+      ),
+
+      selector: "genre",
+      sortable: false
 
     },
 
@@ -93,18 +113,20 @@ function App() {
       right: true
     },
 
-  ]  
+  ];
 
-useEffect(() => { }, [tableRowsData]);
+  useEffect(() => { }, [tableRowsData]);
 
-return (
-  <DataTable
-    title="Movies"
-    columns={headerResponsive}
-    data={tableRowsData}
-    sortIcon={<SortIcon />}
-  />
-)
+  return (
+    <DataTable
+      title="Movies"
+      columns={headerResponsive}
+      data={tableRowsData}
+      pagination={20}
+      defaultSortField="title"
+      // sortIcon={<SortIcon />}
+    />
+  );
 
 }
 
